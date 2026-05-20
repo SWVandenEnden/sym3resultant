@@ -21,8 +21,8 @@
 
 """
 
-import sym3resultant
 import symexpress3
+import sym3resultant
 
 
 def CalcSolution( formula1, formula2, variable, outputFormat ):
@@ -107,7 +107,7 @@ def DisplayHelp():
   print( "  -o <format>  : Output format" )
   print( "                 s - string format (default)" )
   print( "                 h - html" )
-  print( "  -d           : Variable polynomial, default is 'x'" )
+  print( "  -d <name>    : Variable in polynomial, default is 'x'" )
   print( "arg: <symexpress3 string> <symexpress3 string>" )
   print( " " )
   print( "Example: " )
