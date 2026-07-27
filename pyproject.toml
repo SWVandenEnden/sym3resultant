@@ -14,7 +14,7 @@ path = "src/sym3resultant/version.py"
 name = "sym3resultant"
 dynamic = ['version']
 dependencies = [
-  'symexpress3 >= 0.0.13'
+  'symexpress3 >= 0.0.18'
 ]
 authors = [
   { name ="Gien van den Enden"},

@@ -24,8 +24,10 @@
 import symexpress3
 import sym3resultant
 
+from sym3resultant import version
 
-def CalcSolution( formula1, formula2, variable, outputFormat ):
+
+def CalcSolution( formula1:str, formula2:str, variable:None|str, outputFormat:None|str ) -> None:
   """
   Calculate the resultant of two polynomials
   """
@@ -80,21 +82,21 @@ def CalcSolution( formula1, formula2, variable, outputFormat ):
 
 
 
-def DisplayVersion():
+def DisplayVersion() -> None :
   """
   Display version information
   """
-  print( "Version    : " + sym3resultant.__version__    )
+  print( "Version    : " + version.__version__    )
 
-  print( "Author     : " + sym3resultant.__author__     )
-  print( "Copyright  : " + sym3resultant.__copyright__  )
-  print( "License    : " + sym3resultant.__license__    )
-  print( "Maintainer : " + sym3resultant.__maintainer__ )
-  print( "Email      : " + sym3resultant.__email__      )
-  print( "Status     : " + sym3resultant.__status__     )
+  print( "Author     : " + version.__author__     )
+  print( "Copyright  : " + version.__copyright__  )
+  print( "License    : " + version.__license__    )
+  print( "Maintainer : " + version.__maintainer__ )
+  print( "Email      : " + version.__email__      )
+  print( "Status     : " + version.__status__     )
 
 
-def DisplayHelp():
+def DisplayHelp() -> None :
   """
   Display help
   """
@@ -114,7 +116,7 @@ def DisplayHelp():
   print( 'python -m sym3resultant "x^^2+x+1" "x^^2+2x+2"' )
   print( 'python -m sym3resultant -o s -d x  "x^^2+x+1" "x^^2+2x+2"' )
 
-def CommandLine( argv ):
+def CommandLine( argv:list[str] ) -> None :
   """
   Process the command line parameters
   """

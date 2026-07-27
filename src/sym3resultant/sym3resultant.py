@@ -27,6 +27,8 @@
     Control: https://numbersandshapes.net/posts/tschirnhausens_transformations_quartic/
 
 """
+import typing
+import logging
 
 import symexpress3
 
@@ -35,40 +37,55 @@ class Sym3Resultant():
   Calculate the resultant of 2 polynomials
   """
 
-  def __init__( self ):
+  def __init__( self ) -> None:
     # defaults
-    self._variable  = 'x'  # the variable
-    self._formula1  = None # symexpress3 formula
-    self._formula2  = None # symexpress3 formula
-    self._output    = None # symexpress3.SymToHtml object
-    self._resultant = None # resultant, see calcResultant()
+    self._variable  :str                         = 'x'  # the variable
+    self._formula1  :None|str                    = None # symexpress3 formula
+    self._formula2  :None|str                    = None # symexpress3 formula
+    self._output    :None|symexpress3.SymToHtml  = None # symexpress3.SymToHtml object
+    self._resultant :None|symexpress3.SymExpress = None # resultant, see calcResultant()
+    self._logger    :None|logging.Logger         = None # Python logging object
+
 
   @property
-  def formula1(self):
+  def log(self) -> None|logging.Logger :
+    """
+    The Python logger handle, None = no logger
+    """
+    return self._logger
+
+  @log.setter
+  def log(self, val:None|logging.Logger) -> None :
+    if val != None and not isinstance( val, logging.Logger):
+      raise NameError( f'log has incorrect type: {type(val)}, expected logging.Logger' )
+    self._logger = val
+
+  @property
+  def formula1(self) -> None|str:
     """
     Symexpress3 formula 1
     """
     return self._formula1
 
   @formula1.setter
-  def formula1(self, val):
+  def formula1(self, val:typing.Any ) -> None :
     self._formula1 = symexpress3.ConvertToSymexpress3String( val )
 
 
   @property
-  def formula2(self):
+  def formula2(self) -> None|str :
     """
     Symexpress3 formula 2
     """
     return self._formula2
 
   @formula2.setter
-  def formula2(self, val):
+  def formula2(self, val:typing.Any ) -> None :
     self._formula2 = symexpress3.ConvertToSymexpress3String( val )
 
 
   @property
-  def resultant(self):
+  def resultant(self) -> None|symexpress3.SymExpress:
     """
     Symexpress3 resultant from calcResultant()
     """
@@ -76,28 +93,28 @@ class Sym3Resultant():
 
 
   @property
-  def htmlOutput(self):
+  def htmlOutput(self) -> None|symexpress3.SymToHtml :
     """
     Set html output object
     """
     return self._output
 
   @htmlOutput.setter
-  def htmlOutput(self, val):
+  def htmlOutput(self, val:None|symexpress3.SymToHtml ) -> None :
     if val != None and ( not isinstance( val, symexpress3.SymToHtml )) :
       raise NameError( f'htmlOutput is incorrect: {type(val)}, expected SymToHtml object ' )
     self._output = val
 
 
   @property
-  def variable(self):
+  def variable(self) -> str:
     """
     The variable
     """
     return self._variable
 
   @variable.setter
-  def variable(self, val):
+  def variable(self, val:str ) -> None :
     if not isinstance( val, str ):
       raise NameError( f'Variable is incorrect: {type(val)}, expected str' )
     self._variable = val
@@ -106,12 +123,12 @@ class Sym3Resultant():
   #
   # Resultant calculation
   #
-  def calcResultant(self):
+  def calcResultant(self) -> None|symexpress3.SymExpress:
     """
     Do the resultant calculation
     """
 
-    def RaiseError( cError ):
+    def RaiseError( cError:str ) -> None :
       """
       Raise an error and put the message also in the output file if set
       """
@@ -120,20 +137,20 @@ class Sym3Resultant():
       raise NameError( cError )
 
 
-    def BuildMatrix( iSize ):
+    def BuildMatrix( iSize:int ) -> list[list[symexpress3.TypVarSym3Object]]:
       """
       Build a matrix of given size
       """
-      matrix = []
+      matrix:list[list[symexpress3.TypVarSym3Object]] = []
       for _ in range( iSize ):
-        row = []
+        row:list[symexpress3.TypVarSym3Object] = []
         for _ in range( iSize ):
           row.append( symexpress3.SymNumber( 1,0,1 ) )
         matrix.append( row )
       return matrix
 
 
-    def PrintMatrix( matrix ):
+    def PrintMatrix( matrix : list[list[symexpress3.TypVarSym3Object]]) -> None:
       """
       Print matrix is output is defined
       """
@@ -155,7 +172,7 @@ class Sym3Resultant():
       self._output.writeLine( '')
 
 
-    def CalcResulant( matrix ):
+    def CalcResulant( matrix : list[list[symexpress3.TypVarSym3Object]] ) -> symexpress3.SymExpress:
       """
       Calculate the resultant of a given matrix (recursive)
       """
@@ -195,7 +212,7 @@ class Sym3Resultant():
 
         for iCol in range( matrixSize ):
           # skip zero's
-          if isinstance( matrix[ 0 ][ iCol ], symexpress3.SymNumber ) and matrix[ 0 ][ iCol ].factCounter == 0 :
+          if isinstance( matrix[ 0 ][ iCol ], symexpress3.SymNumber ) and matrix[ 0 ][ iCol ].factCounter == 0 : #type:ignore
             continue
 
           # odd cols has -1 sign
@@ -245,6 +262,9 @@ class Sym3Resultant():
 
       return valResulant
 
+
+    if self._logger != None:
+      self._logger.info( "Start calcResultant" )
 
     if self._output != None:
       self._output.writeLine( 'Resultant calculation' )
@@ -344,4 +364,11 @@ class Sym3Resultant():
     if self._output != None:
       self._output.writeSymExpressWithStr( resultantValue, "Resulant" )
 
+    if self._logger != None:
+      self._logger.info( "End calcResultant" )
+
     return resultantValue
+
+# ---------------------------
+# The end
+# ---------------------------
