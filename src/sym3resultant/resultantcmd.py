@@ -88,10 +88,10 @@ def DisplayVersion() -> None :
   """
   print( "Version    : " + version.__version__    )
 
-  print( "Author     : " + version.__author__     )
+  # print( "Author     : " + version.__author__     )
   print( "Copyright  : " + version.__copyright__  )
   print( "License    : " + version.__license__    )
-  print( "Maintainer : " + version.__maintainer__ )
+  # print( "Maintainer : " + version.__maintainer__ )
   print( "Email      : " + version.__email__      )
   print( "Status     : " + version.__status__     )
 

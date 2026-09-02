@@ -14,7 +14,7 @@ path = "src/sym3resultant/version.py"
 name = "sym3resultant"
 dynamic = ['version']
 dependencies = [
-  'symexpress3 >= 0.0.18'
+  'symexpress3 >= 0.0.19'
 ]
 authors = [
   { name ="Gien van den Enden"},
@@ -25,7 +25,7 @@ maintainers = [
 ]
 description = "A Python module to calculate the resultant of two polynomials"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
